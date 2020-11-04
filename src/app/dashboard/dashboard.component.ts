@@ -37,6 +37,10 @@ export class DashboardComponent {
     }
 
       save() {       
+
+        if(this.message.msg === undefined || this.message.msg === "")
+        return window.confirm("The message cannot be empty!");;
+
         if (this.isNewRecord) {
             this.dashboardService.post(this.message.msg).subscribe(res => {
                 
