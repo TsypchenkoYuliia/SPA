@@ -1,0 +1,44 @@
+<div class="block">Messages:</div>
+
+<p *ngIf="!messages"><em>Loading...</em></p>
+
+<table *ngIf="tableMode; else create" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Text</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let message of messages">
+      <ng-template [ngTemplateOutlet]="loadTemplate(message)" 
+                   [ngTemplateOutletContext]="{ $implicit: message}">
+      </ng-template>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #readOnlyTemplate let-message>
+  <td>{{message.id}}</td>
+  <td>{{message.msg}}</td>
+  <td>
+      <input type="button" value="Update" class="btn btn-default" (click)="edit(message)" />
+      <input type="button" value="Remove" (click)="delete(message)" class="btn btn-danger" />
+  </td>
+  
+</ng-template>
+
+
+<input type="button" value="Add message" class="add btn btn-default" (click)="add()" />
+
+<ng-template #create>
+    <div class="form-group">
+        <label>Text:</label>
+        <input type="text" [(ngModel)]="message.msg" class="form-control"/>
+    </div>
+    <div>
+        <input type="button" value="Save" (click)="save()" class="btn btn-success" />
+        <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+    </div>
+</ng-template>
